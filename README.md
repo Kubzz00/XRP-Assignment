@@ -1,2 +1,4 @@
 # XRP-Assignment
-XR Prototyping Assignment (SDG Goals)
+| **Name**     | **Student Number** |
+| ----------- | ----------- |
+| Karl Negrillo      | C22386123       |
