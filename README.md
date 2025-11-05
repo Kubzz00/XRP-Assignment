@@ -23,3 +23,6 @@ These are the key features and interations that my assignment will have
 - Hand Tracking for all major interactions (dig, plant, water, harvest)
 - 3D user interface for selecting seeds and displaying crop data
 - Spatial audio feedback throughout the experience
+
+## Sample Design for Assignment
+![Alt Text](IMG_0039.png)
