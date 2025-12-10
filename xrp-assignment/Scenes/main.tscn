@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://b60a37f8ewdbr"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7u77a"]
+size = Vector2(20, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jjgbg"]
+albedo_color = Color(0.48677072, 0.7373294, 0.42358288, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
+
+[sub_resource type="Sky" id="Sky_8gbba"]
+sky_material = SubResource("ProceduralSkyMaterial_bo1nx")
+
+[sub_resource type="Environment" id="Environment_jjvhh"]
+background_mode = 2
+sky = SubResource("Sky_8gbba")
+
+[node name="Main" type="Node3D"]
+
+[node name="Environement" type="Node3D" parent="."]
+
+[node name="Ground" type="MeshInstance3D" parent="Environement"]
+mesh = SubResource("PlaneMesh_7u77a")
+surface_material_override/0 = SubResource("StandardMaterial3D_jjgbg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environement"]
+environment = SubResource("Environment_jjvhh")
