@@ -10,6 +10,16 @@ config_version=5
 
 [application]
 
-config/name="XRP Assignment"
+config/name="VirtualFarmXR"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[xr]
+
+openxr/enabled=true
+openxr/extensions/hand_tracking=true
+openxr/extensions/hand_tracking_unobstructed_data_source=true
+openxr/extensions/hand_tracking_controller_data_source=true
+openxr/extensions/hand_interaction_profile=true
+openxr/extensions/eye_gaze_interaction=true
+openxr/extensions/render_model=true
