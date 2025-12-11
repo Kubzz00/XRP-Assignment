@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b60a37f8ewdbr"]
+[gd_scene load_steps=11 format=3 uid="uid://b60a37f8ewdbr"]
 
 [ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scenes/main.gd" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://njx823gyk04n" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_hand.tscn" id="3_kry3j"]
+[ext_resource type="Script" uid="uid://b18kkstg643yw" path="res://addons/godot-xr-tools/functions/function_pickup.gd" id="4_21xkr"]
+[ext_resource type="PackedScene" uid="uid://raeeicvvindd" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_hand.tscn" id="5_6bp64"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7u77a"]
 size = Vector2(20, 20)
@@ -36,3 +39,15 @@ environment = SubResource("Environment_jjvhh")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+
+[node name="LeftHand" parent="XROrigin3D" instance=ExtResource("3_kry3j")]
+
+[node name="XRToolsFunctionPickup" type="Node3D" parent="XROrigin3D/LeftHand"]
+script = ExtResource("4_21xkr")
+metadata/_custom_type_script = "uid://b18kkstg643yw"
+
+[node name="RightHand" parent="XROrigin3D" instance=ExtResource("5_6bp64")]
+
+[node name="XRToolsFunctionPickup" type="Node3D" parent="XROrigin3D/RightHand"]
+script = ExtResource("4_21xkr")
+metadata/_custom_type_script = "uid://b18kkstg643yw"
