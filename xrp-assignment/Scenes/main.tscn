@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b60a37f8ewdbr"]
+[gd_scene load_steps=25 format=3 uid="uid://b60a37f8ewdbr"]
 
 [ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scripts/DigInteraction.gd" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="2_8gbba"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dabmoo0spa6vg" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="9_hptm8"]
 [ext_resource type="PackedScene" uid="uid://bburatlufh12c" path="res://Assests/models/Farm Dirt.glb" id="10_hptm8"]
 [ext_resource type="PackedScene" uid="uid://chl2u5pgya7je" path="res://Assests/models/Wood Water Trough.glb" id="11_d1ilt"]
+[ext_resource type="PackedScene" uid="uid://b2thdn7k50xnu" path="res://Scenes/planting_plot.tscn" id="11_fdnlq"]
 [ext_resource type="PackedScene" uid="uid://dlbnuiir3ssge" path="res://Assests/models/Small Table.glb" id="12_6iyac"]
 
 [sub_resource type="Resource" id="Resource_k12tt"]
@@ -39,7 +40,7 @@ albedo_color = Color(0.48677072, 0.7373294, 0.42358288, 1)
 size = Vector3(3, 0.05, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_21xkr"]
-albedo_color = Color(0.6651851, 0.5370987, 0.3491902, 1)
+albedo_color = Color(0.46963233, 0.36919573, 0.22155032, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
 
@@ -111,6 +112,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0, 0)
 
 [node name="PlantingSoil2" parent="Environement/SoilBed" instance=ExtResource("10_hptm8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0)
+
+[node name="PlantingPlots" type="Node3D" parent="Environement"]
+
+[node name="Plot1" parent="Environement/PlantingPlots" instance=ExtResource("11_fdnlq")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.6, 0.05, -1.5)
+
+[node name="Plot2" parent="Environement/PlantingPlots" instance=ExtResource("11_fdnlq")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, -0.5)
+
+[node name="Plot3" parent="Environement/PlantingPlots" instance=ExtResource("11_fdnlq")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.6, 0.05, -1.5)
 
 [node name="WaterSource" parent="Environement" instance=ExtResource("11_d1ilt")]
 transform = Transform3D(0.00018852204, 0, 0.39999998, 0, 0.3999999, 0, -0.39999998, 0, 0.00018852204, 0.16243696, 0, 1.3386574)
