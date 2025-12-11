@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b60a37f8ewdbr"]
+[gd_scene load_steps=22 format=3 uid="uid://b60a37f8ewdbr"]
 
 [ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scripts/main.gd" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="2_8gbba"]
@@ -9,6 +9,9 @@
 [ext_resource type="Resource" uid="uid://ceofxcl7q122" path="res://addons/hand_pose_detector/poses/point.tres" id="7_fdnlq"]
 [ext_resource type="Script" uid="uid://d005es8cdrh4l" path="res://addons/hand_pose_detector/hand_pose_set.gd" id="8_jkdf5"]
 [ext_resource type="PackedScene" uid="uid://dabmoo0spa6vg" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="9_hptm8"]
+[ext_resource type="PackedScene" uid="uid://bburatlufh12c" path="res://Assests/models/Farm Dirt.glb" id="10_hptm8"]
+[ext_resource type="PackedScene" uid="uid://chl2u5pgya7je" path="res://Assests/models/Wood Water Trough.glb" id="11_d1ilt"]
+[ext_resource type="PackedScene" uid="uid://dlbnuiir3ssge" path="res://Assests/models/Small Table.glb" id="12_6iyac"]
 
 [sub_resource type="Resource" id="Resource_k12tt"]
 script = ExtResource("8_jkdf5")
@@ -27,24 +30,10 @@ size = Vector2(20, 20)
 albedo_color = Color(0.48677072, 0.7373294, 0.42358288, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kry3j"]
-size = Vector3(3, 0.05, 1.5)
+size = Vector3(3, 0.05, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_21xkr"]
 albedo_color = Color(0.6651851, 0.5370987, 0.3491902, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_21xkr"]
-size = Vector3(0.4, 0.1, 0.4)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bp64"]
-albedo_color = Color(0.58383155, 0.42358288, 0.24780053, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_344ge"]
-size = Vector3(0.8, 0.3, 0.8)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ynf5e"]
-albedo_color = Color(0.583647, 0.90605414, 1.2278534, 1)
-metallic = 0.3
-roughness = 0.2
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
 
@@ -63,7 +52,6 @@ script = ExtResource("1_bo1nx")
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 
 [node name="LeftHand" type="XRNode3D" parent="XROrigin3D"]
 tracker = &"/user/hand_tracker/left"
@@ -98,27 +86,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -1)
 mesh = SubResource("BoxMesh_kry3j")
 surface_material_override/0 = SubResource("StandardMaterial3D_21xkr")
 
-[node name="PlantingPlots" type="Node3D" parent="Environement/SoilBed"]
+[node name="PlantingSoil" parent="Environement/SoilBed" instance=ExtResource("10_hptm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0, 0)
 
-[node name="Plot1" type="MeshInstance3D" parent="Environement/SoilBed/PlantingPlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.05, 0)
-mesh = SubResource("BoxMesh_21xkr")
-surface_material_override/0 = SubResource("StandardMaterial3D_6bp64")
+[node name="PlantingSoil2" parent="Environement/SoilBed" instance=ExtResource("10_hptm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0)
 
-[node name="Plot2" type="MeshInstance3D" parent="Environement/SoilBed/PlantingPlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-mesh = SubResource("BoxMesh_21xkr")
-surface_material_override/0 = SubResource("StandardMaterial3D_6bp64")
+[node name="WaterSource" parent="Environement" instance=ExtResource("11_d1ilt")]
+transform = Transform3D(0.00018852204, 0, 0.39999998, 0, 0.3999999, 0, -0.39999998, 0, 0.00018852204, 0.16243696, 0, 1.3386574)
 
-[node name="Plot3" type="MeshInstance3D" parent="Environement/SoilBed/PlantingPlots"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.05, 0)
-mesh = SubResource("BoxMesh_21xkr")
-surface_material_override/0 = SubResource("StandardMaterial3D_6bp64")
-
-[node name="WaterSource" type="MeshInstance3D" parent="Environement"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.1, 0)
-mesh = SubResource("BoxMesh_344ge")
-surface_material_override/0 = SubResource("StandardMaterial3D_ynf5e")
+[node name="EquipmentTable" parent="Environement" instance=ExtResource("12_6iyac")]
+transform = Transform3D(0.4728558, 0, 0.16250351, 0, 0.5, 0, -0.16250351, 0, 0.4728558, -1.0359472, 0, 0.5804002)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environement"]
 environment = SubResource("Environment_jjvhh")
