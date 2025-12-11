@@ -1,4 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b60a37f8ewdbr"]
+[gd_scene load_steps=8 format=3 uid="uid://b60a37f8ewdbr"]
+
+[ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scenes/main.gd" id="1_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="2_8gbba"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7u77a"]
 size = Vector2(20, 20)
@@ -16,6 +19,9 @@ background_mode = 2
 sky = SubResource("Sky_8gbba")
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_bo1nx")
+
+[node name="StartXR" parent="." instance=ExtResource("2_8gbba")]
 
 [node name="Environement" type="Node3D" parent="."]
 
@@ -25,3 +31,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jjgbg")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environement"]
 environment = SubResource("Environment_jjvhh")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
