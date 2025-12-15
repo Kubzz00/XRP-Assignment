@@ -21,7 +21,7 @@ func _ready():
 	# Try to find visual mesh if not assigned
 	if not visual_mesh and get_parent().has_node("PlotVisual"):
 		visual_mesh = get_parent().get_node("PlotVisual")
-		print("Found PlotVisual automatically")
+		print("Found PlotVisual automatically\n")
 	
 	# Connect signals for collision detection
 	area_entered.connect(_on_area_entered)
@@ -43,21 +43,21 @@ func _on_area_entered(area: Area3D):
 func _on_area_exited(area: Area3D):
 	if "Hand" in area.name:
 		hand_inside = false
-		print("Hand left plot area")
+		print("Hand left plot area\n\n")
 
 # Attempt to dig the plot
 func try_dig():
 	if not is_dug:
 		perform_dig()
 	else:
-		print("Plot already dug!")
+		print("Plot already dug!\n\n")
 
 # Actually perform the digging
 func perform_dig():
 	is_dug = true
 	can_plant = true
 	
-	print("PLOT DUG! Ready for planting")
+	print("PLOT DUG! Ready for planting\n\n")
 	
 	# Change visual appearance
 	change_plot_appearance()
@@ -75,11 +75,11 @@ func change_plot_appearance():
 		if material:
 			# Make it darker brown (dug soil)
 			material.albedo_color = Color(0.2, 0.12, 0.06)
-			print("Plot appearance changed to dug state")
+			print("Plot appearance changed to dug state\n")
 		else:
-			print("Warning: No material found on visual mesh")
+			print("Warning: No material found on visual mesh\n")
 	else:
-		print("Warning: visual_mesh not assigned")
+		print("Warning: visual_mesh not assigned\n")
 
 # Check if plot is ready for planting
 func can_be_planted() -> bool:

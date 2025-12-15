@@ -2,28 +2,30 @@
 
 [ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scripts/DigInteraction.gd" id="1_o8bsd"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_w4su1"]
-size = Vector3(0.4, 0.15, 0.4)
+[sub_resource type="CylinderMesh" id="CylinderMesh_o8bsd"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.03
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8bsd"]
-albedo_color = Color(0.5847179, 0.42358288, 0.24780053, 1)
+albedo_color = Color(0.29925588, 0.20721787, 0.10527029, 1)
 roughness = 0.85
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_s0rjq"]
-size = Vector3(0.5, 0.3, 0.5)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_s0rjq"]
+height = 0.1
+radius = 0.2
 
 [node name="PlantingPlot" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="PlotVisual" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_w4su1")
+mesh = SubResource("CylinderMesh_o8bsd")
 surface_material_override/0 = SubResource("StandardMaterial3D_o8bsd")
 
 [node name="DigArea" type="Area3D" parent="." node_paths=PackedStringArray("visual_mesh")]
-collision_layer = 2
-collision_mask = 4
+collision_mask = 2
 script = ExtResource("1_o8bsd")
 visual_mesh = NodePath("../PlotVisual")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DigArea"]
-shape = SubResource("BoxShape3D_s0rjq")
+shape = SubResource("CylinderShape3D_s0rjq")
