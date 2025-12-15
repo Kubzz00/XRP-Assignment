@@ -1,3 +1,71 @@
-[gd_scene format=3 uid="uid://2axnt6cl1ued"]
+[gd_scene load_steps=13 format=3 uid="uid://2axnt6cl1ued"]
+
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
+[ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
+[ext_resource type="PackedScene" uid="uid://df5hynbooj1uj" path="res://addons/hand_pose_detector/hand_pose_detector.tscn" id="3_epx7e"]
+[ext_resource type="Script" uid="uid://c4uoqfu4wqoet" path="res://addons/hand_pose_detector/hand_pose.gd" id="4_am26l"]
+[ext_resource type="Resource" uid="uid://dhbqusuodrl3r" path="res://addons/hand_pose_detector/poses/fist.tres" id="5_427jq"]
+[ext_resource type="Resource" uid="uid://ceofxcl7q122" path="res://addons/hand_pose_detector/poses/point.tres" id="6_adfdh"]
+[ext_resource type="Script" uid="uid://d005es8cdrh4l" path="res://addons/hand_pose_detector/hand_pose_set.gd" id="7_gnobc"]
+[ext_resource type="PackedScene" uid="uid://dabmoo0spa6vg" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="8_uh45c"]
+
+[sub_resource type="Resource" id="Resource_28cbd"]
+script = ExtResource("7_gnobc")
+poses = Array[ExtResource("4_am26l")]([ExtResource("5_427jq"), ExtResource("6_adfdh")])
+metadata/_custom_type_script = "uid://d005es8cdrh4l"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x3vlc"]
+radius = 0.1
+
+[sub_resource type="Resource" id="Resource_uj4ka"]
+script = ExtResource("7_gnobc")
+poses = Array[ExtResource("4_am26l")]([ExtResource("5_427jq"), ExtResource("6_adfdh")])
+metadata/_custom_type_script = "uid://d005es8cdrh4l"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_c17sg"]
+radius = 0.1
 
 [node name="FarmExperienceMain" type="Node3D"]
+
+[node name="StartXR" parent="." instance=ExtResource("1_si7pw")]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="LeftHand" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/left"
+
+[node name="LeftHandHumanoid2" parent="XROrigin3D/LeftHand" instance=ExtResource("2_mlhxu")]
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/LeftHand/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D" index="1"]
+
+[node name="HandPoseDetector" parent="XROrigin3D/LeftHand" instance=ExtResource("3_epx7e")]
+hand_pose_set = SubResource("Resource_28cbd")
+
+[node name="LeftHandArea" type="Area3D" parent="XROrigin3D/LeftHand"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftHand/LeftHandArea"]
+shape = SubResource("SphereShape3D_x3vlc")
+
+[node name="RightHand" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/right"
+
+[node name="RightHandHumanoid2" parent="XROrigin3D/RightHand" instance=ExtResource("8_uh45c")]
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/RightHand/RightHandHumanoid2/RightHandHumanoid/Skeleton3D" index="1"]
+hand_tracker = &"/user/hand_tracker/right"
+
+[node name="HandPoseDetector" parent="XROrigin3D/RightHand" instance=ExtResource("3_epx7e")]
+hand_tracker_name = "/user/hand_tracker/right"
+hand_pose_set = SubResource("Resource_uj4ka")
+
+[node name="RightHandArea" type="Area3D" parent="XROrigin3D/RightHand"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/RightHandArea"]
+shape = SubResource("SphereShape3D_c17sg")
+
+[editable path="XROrigin3D/LeftHand/LeftHandHumanoid2"]
+[editable path="XROrigin3D/RightHand/RightHandHumanoid2"]
