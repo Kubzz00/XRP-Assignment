@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://2axnt6cl1ued"]
+[gd_scene load_steps=17 format=3 uid="uid://2axnt6cl1ued"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
 [ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
@@ -8,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://ceofxcl7q122" path="res://addons/hand_pose_detector/poses/point.tres" id="6_adfdh"]
 [ext_resource type="Script" uid="uid://d005es8cdrh4l" path="res://addons/hand_pose_detector/hand_pose_set.gd" id="7_gnobc"]
 [ext_resource type="PackedScene" uid="uid://dabmoo0spa6vg" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="8_uh45c"]
+[ext_resource type="PackedScene" uid="uid://dlbnuiir3ssge" path="res://Assests/models/Small Table.glb" id="9_mlhxu"]
 
 [sub_resource type="Resource" id="Resource_28cbd"]
 script = ExtResource("7_gnobc")
@@ -25,6 +26,15 @@ metadata/_custom_type_script = "uid://d005es8cdrh4l"
 [sub_resource type="SphereShape3D" id="SphereShape3D_c17sg"]
 radius = 0.1
 
+[sub_resource type="BoxMesh" id="BoxMesh_mlhxu"]
+size = Vector3(2, 0.05, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_epx7e"]
+albedo_color = Color(0.56024766, 0.36466154, 0.20001623, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_am26l"]
+size = Vector3(1.9907227, 0.06390381, 1.1941528)
+
 [node name="FarmExperienceMain" type="Node3D"]
 
 [node name="StartXR" parent="." instance=ExtResource("1_si7pw")]
@@ -32,6 +42,7 @@ radius = 0.1
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2228179, 0)
 
 [node name="LeftHand" type="XRNode3D" parent="XROrigin3D"]
 tracker = &"/user/hand_tracker/left"
@@ -66,6 +77,22 @@ collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/RightHandArea"]
 shape = SubResource("SphereShape3D_c17sg")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Table" parent="Environment" instance=ExtResource("9_mlhxu")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.075, 0, -1)
+
+[node name="SoilBed" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8610147, -0.98573947)
+mesh = SubResource("BoxMesh_mlhxu")
+surface_material_override/0 = SubResource("StandardMaterial3D_epx7e")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/SoilBed"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/SoilBed/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00024414063, -0.0054626465, -0.00064086914)
+shape = SubResource("BoxShape3D_am26l")
 
 [editable path="XROrigin3D/LeftHand/LeftHandHumanoid2"]
 [editable path="XROrigin3D/RightHand/RightHandHumanoid2"]
