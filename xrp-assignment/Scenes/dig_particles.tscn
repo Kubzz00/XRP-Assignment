@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0acjxr47f5jj"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7eruv"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.5
+color = Color(0.32299736, 0.26059303, 0.17260012, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2unlf"]
+size = Vector3(0.03, 0.03, 0.03)
+
+[node name="DigParticles" type="GPUParticles3D"]
+emitting = false
+amount = 20
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_7eruv")
+draw_pass_1 = SubResource("BoxMesh_2unlf")

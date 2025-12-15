@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2thdn7k50xnu"]
+[gd_scene load_steps=6 format=3 uid="uid://b2thdn7k50xnu"]
 
 [ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scripts/DigInteraction.gd" id="1_o8bsd"]
+[ext_resource type="PackedScene" uid="uid://b0acjxr47f5jj" path="res://Scenes/dig_particles.tscn" id="2_s0rjq"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_o8bsd"]
 top_radius = 0.2
 bottom_radius = 0.2
-height = 0.03
+height = 0.08
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8bsd"]
 albedo_color = Color(0.29925588, 0.20721787, 0.10527029, 1)
@@ -22,10 +23,10 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("CylinderMesh_o8bsd")
 surface_material_override/0 = SubResource("StandardMaterial3D_o8bsd")
 
-[node name="DigArea" type="Area3D" parent="." node_paths=PackedStringArray("visual_mesh")]
+[node name="DigArea" type="Area3D" parent="."]
 collision_mask = 2
 script = ExtResource("1_o8bsd")
-visual_mesh = NodePath("../PlotVisual")
+particle_scene = ExtResource("2_s0rjq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DigArea"]
 shape = SubResource("CylinderShape3D_s0rjq")
