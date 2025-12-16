@@ -4,9 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://dswhd3dfpojgx" path="res://Assests/models/Squash seed.glb" id="2_nwbkr"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jya8j"]
-radius = 0.052681297
+radius = 0.05252753
 
 [node name="Seed" instance=ExtResource("1_arhpd")]
+collision_mask = 196611
 freeze = true
 ranged_grab_method = 0
 second_hand_grab = 1
@@ -14,4 +15,5 @@ second_hand_grab = 1
 [node name="Seed" parent="." index="0" instance=ExtResource("2_nwbkr")]
 
 [node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.008084938)
 shape = SubResource("SphereShape3D_jya8j")

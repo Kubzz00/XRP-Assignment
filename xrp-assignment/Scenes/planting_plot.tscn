@@ -13,8 +13,8 @@ albedo_color = Color(0.29925588, 0.20721787, 0.10527029, 1)
 roughness = 0.85
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_s0rjq"]
-height = 0.1
-radius = 0.2
+height = 0.1788086
+radius = 0.2211914
 
 [node name="PlantingPlot" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -24,9 +24,13 @@ mesh = SubResource("CylinderMesh_o8bsd")
 surface_material_override/0 = SubResource("StandardMaterial3D_o8bsd")
 
 [node name="DigArea" type="Area3D" parent="."]
-collision_mask = 2
+collision_layer = 3
+collision_mask = 6
 script = ExtResource("1_o8bsd")
 particle_scene = ExtResource("2_s0rjq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DigArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0062988214, 0)
 shape = SubResource("CylinderShape3D_s0rjq")
+
+[connection signal="body_entered" from="DigArea" to="DigArea" method="_on_body_entered"]

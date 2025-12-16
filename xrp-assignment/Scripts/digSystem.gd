@@ -28,7 +28,7 @@ func _ready():
 	
 	# Load plot scene if not assigned
 	if not plot_scene:
-		plot_scene = load("res://Scenes/plot.tscn")
+		plot_scene = load("res://Scenes/planting_plot.tscn")
 	
 	# Connect collision signals
 	area_entered.connect(_on_hand_entered)
