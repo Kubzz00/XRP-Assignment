@@ -180,6 +180,10 @@ plot_scene = ExtResource("15_uj4ka")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0045166016, 0.0024414063, 0.0014038086)
 shape = SubResource("BoxShape3D_uj4ka")
 
+[node name="StatusUpdate" type="Label3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91272485, -2.5870082)
+text = "Use Hand or Shovel to start digging..."
+
 [node name="Shovel" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7710158, 0.5552696, 0)
 

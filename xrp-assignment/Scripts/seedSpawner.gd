@@ -2,11 +2,12 @@ extends StaticBody3D
 class_name SeedSpawner
 
 @export var seed_scene: PackedScene
-@export var max_seeds: int = 2
+@export var max_seeds: int = 5
 @export var spawn_height: float = 0.15
 
 var spawned_count: int = 0
 var touch_detector: Area3D
+var state_label: Label3D  # NEW
 
 func _ready():
 	print("🌱 SeedSpawner ready!")
@@ -14,18 +15,13 @@ func _ready():
 	if not seed_scene:
 		seed_scene = load("res://Scenes/newSeed.tscn")
 	
-	# NEW: Test if scene loads
-	if seed_scene:
-		print("✅ Seed scene loaded successfully!")
-	else:
-		print("❌ FAILED to load seed scene!")
+	# NEW: Find state label
+	state_label = get_tree().root.find_child("StateUpdate", true, false)
 	
 	touch_detector = $TouchDetector
 	if touch_detector:
 		touch_detector.area_entered.connect(_on_hand_touch)
 		print("✅ Touch detector connected")
-	else:
-		print("❌ TouchDetector not found!")
 
 func _on_hand_touch(area: Area3D):
 	if "Hand" in area.name:
@@ -47,6 +43,10 @@ func spawn_seed():
 	
 	spawned_count += 1
 	print("✅ Seed #", spawned_count, " spawned!")
+	
+	# NEW: Update state label
+	if state_label:
+		state_label.text = "Got seed!"
 	
 	flash_button()
 

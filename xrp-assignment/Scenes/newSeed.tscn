@@ -31,6 +31,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_t1ffi")
 shape = SubResource("SphereShape3D_ymu23")
 
 [node name="SeedDetector" type="Area3D" parent="."]
+collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SeedDetector"]
 shape = SubResource("SphereShape3D_8k48m")
