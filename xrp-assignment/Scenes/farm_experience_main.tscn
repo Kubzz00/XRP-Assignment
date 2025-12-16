@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://2axnt6cl1ued"]
+[gd_scene load_steps=34 format=3 uid="uid://2axnt6cl1ued"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
 [ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
@@ -11,10 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://bh8isvqs258cp" path="res://addons/hand_pose_detector/hand_pose_controller.tscn" id="8_x3vlc"]
 [ext_resource type="PackedScene" uid="uid://dlbnuiir3ssge" path="res://Assests/models/Small Table.glb" id="9_mlhxu"]
 [ext_resource type="Script" uid="uid://3uq6nkwwrhe5" path="res://addons/hand_pose_detector/hand_pose_action.gd" id="9_uj4ka"]
-[ext_resource type="Script" uid="uid://bfrlpbsqg5lqr" path="res://addons/godot-xr-tools/objects/pickable.gd" id="10_adfdh"]
 [ext_resource type="Script" uid="uid://dq0qr5qlrp6db" path="res://addons/hand_pose_detector/hand_pose_action_map.gd" id="10_c17sg"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="12_7gqkp"]
-[ext_resource type="PackedScene" uid="uid://dswhd3dfpojgx" path="res://Assests/models/Squash seed.glb" id="12_gnobc"]
+[ext_resource type="Script" uid="uid://delokeenh1qgr" path="res://Scripts/digSystem.gd" id="14_x3vlc"]
+[ext_resource type="PackedScene" uid="uid://cqg6xsv5nirk0" path="res://Scenes/plot.tscn" id="15_uj4ka"]
 [ext_resource type="PackedScene" uid="uid://spq7ho7o37op" path="res://Scenes/watering_can.tscn" id="17_x3vlc"]
 [ext_resource type="PackedScene" uid="uid://p0mamkc44bbi" path="res://Scenes/seed.tscn" id="18_c17sg"]
 [ext_resource type="PackedScene" uid="uid://dlstdb8as4mf8" path="res://Scenes/shovel.tscn" id="18_uj4ka"]
@@ -52,23 +52,20 @@ metadata/_custom_type_script = "uid://dq0qr5qlrp6db"
 [sub_resource type="SphereShape3D" id="SphereShape3D_c17sg"]
 radius = 0.1
 
-[sub_resource type="BoxMesh" id="BoxMesh_mlhxu"]
-size = Vector3(1.5, 0.05, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_epx7e"]
-albedo_color = Color(0.56024766, 0.36466154, 0.20001623, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_am26l"]
-size = Vector3(1.9907227, 0.06390381, 1.1941528)
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_adfdh"]
 size = Vector2(20, 20)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gnobc"]
 albedo_color = Color(0.29803923, 0.6862745, 0.3137255, 1)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_uj4ka"]
-radius = 0.038225543
+[sub_resource type="BoxMesh" id="BoxMesh_28cbd"]
+size = Vector3(1.5, 0.03, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3vlc"]
+albedo_color = Color(0.5847179, 0.42358288, 0.24780053, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uj4ka"]
+size = Vector3(1.4763184, 0.028320313, 1.0028076)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uh45c"]
 
@@ -149,36 +146,25 @@ grab_distance = 0.1
 [node name="Table" parent="Environment" instance=ExtResource("9_mlhxu")]
 transform = Transform3D(-3.4969112e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.4969112e-08, 0.075, 0, -0.5809345)
 
-[node name="SoilBed" type="MeshInstance3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6850984, -0.5791243)
-mesh = SubResource("BoxMesh_mlhxu")
-surface_material_override/0 = SubResource("StandardMaterial3D_epx7e")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Environment/SoilBed"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/SoilBed/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00024414063, -0.0054626465, -0.00064086914)
-shape = SubResource("BoxShape3D_am26l")
-
 [node name="Floor" type="MeshInstance3D" parent="Environment"]
 mesh = SubResource("PlaneMesh_adfdh")
 surface_material_override/0 = SubResource("StandardMaterial3D_gnobc")
 
-[node name="Seeds" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.37382555, 0.8003413, -0.023721695)
-visible = false
-gravity_scale = 0.0
-freeze = true
-script = ExtResource("10_adfdh")
-ranged_grab_method = 0
-second_hand_grab = 1
+[node name="Soil" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6672667, -0.5790373)
 
-[node name="Seed" parent="Seeds" instance=ExtResource("12_gnobc")]
-visible = false
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Soil"]
+mesh = SubResource("BoxMesh_28cbd")
+surface_material_override/0 = SubResource("StandardMaterial3D_x3vlc")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Seeds"]
-visible = false
-shape = SubResource("SphereShape3D_uj4ka")
+[node name="Detector" type="Area3D" parent="Environment/Soil"]
+collision_mask = 2
+script = ExtResource("14_x3vlc")
+plot_scene = ExtResource("15_uj4ka")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Soil/Detector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0045166016, 0.0024414063, 0.0014038086)
+shape = SubResource("BoxShape3D_uj4ka")
 
 [node name="Shovel" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7710158, 0.5552696, 0)
