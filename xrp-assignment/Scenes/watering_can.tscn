@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://spq7ho7o37op"]
+[gd_scene load_steps=8 format=3 uid="uid://spq7ho7o37op"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_cql2i"]
 [ext_resource type="PackedScene" uid="uid://654a45yjttwm" path="res://Assests/models/Water Can.glb" id="2_l73o1"]
@@ -6,6 +6,21 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v4ryr"]
 radius = 0.018066406
 height = 0.14709473
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cql2i"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l73o1"]
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v4ryr"]
+albedo_color = Color(0.07887957, 0.40248203, 0.6993938, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_txa3n"]
+material = SubResource("StandardMaterial3D_v4ryr")
+radius = 0.005
+height = 0.01
 
 [node name="WateringCan" instance=ExtResource("1_cql2i")]
 freeze = true
@@ -18,3 +33,17 @@ transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0, 0)
 [node name="CollisionShape3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13383767, 0.0036010742, 0)
 shape = SubResource("CapsuleShape3D_v4ryr")
+
+[node name="WaterArea" type="Area3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24156351, 0.030199207, 0.07759209)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterArea" index="0"]
+shape = SubResource("BoxShape3D_cql2i")
+
+[node name="WaterParticles" type="GPUParticles3D" parent="." index="3"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.242, 0.03, 0.078)
+amount = 280
+lifetime = 1.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_l73o1")
+draw_pass_1 = SubResource("SphereMesh_txa3n")
