@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://2axnt6cl1ued"]
+[gd_scene load_steps=40 format=3 uid="uid://2axnt6cl1ued"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
 [ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
@@ -18,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://spq7ho7o37op" path="res://Scenes/watering_can.tscn" id="17_x3vlc"]
 [ext_resource type="PackedScene" uid="uid://p0mamkc44bbi" path="res://Scenes/seed.tscn" id="18_c17sg"]
 [ext_resource type="PackedScene" uid="uid://dlstdb8as4mf8" path="res://Scenes/shovel.tscn" id="18_uj4ka"]
+[ext_resource type="Script" uid="uid://6uininxxq50p" path="res://Scripts/seedSpawner.gd" id="19_c17sg"]
+[ext_resource type="PackedScene" uid="uid://vobn42a4go4u" path="res://Scenes/newSeed.tscn" id="20_7gqkp"]
 
 [sub_resource type="Resource" id="Resource_28cbd"]
 script = ExtResource("7_gnobc")
@@ -76,6 +78,18 @@ sky_material = SubResource("ProceduralSkyMaterial_uh45c")
 background_mode = 2
 background_color = Color(0, 0, 0, 0)
 sky = SubResource("Sky_28cbd")
+
+[sub_resource type="BoxMesh" id="BoxMesh_uj4ka"]
+size = Vector3(0.1, 0.05, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c17sg"]
+albedo_color = Color(0.7019608, 0.5921569, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c17sg"]
+size = Vector3(0.1385254, 0.08629151, 0.09394531)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7gqkp"]
+size = Vector3(0.13241577, 0.072753906, 0.1309873)
 
 [node name="FarmExperienceMain" type="Node3D"]
 
@@ -178,14 +192,43 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7096498, 0.632767, 0.22273
 
 [node name="Seed" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3197593, 0.8353424, 0)
+visible = false
 
 [node name="Seed" parent="Seed" instance=ExtResource("18_c17sg")]
+visible = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 1.6271832, 5.030473, 0.9928112)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_adfdh")
+
+[node name="SeedButton" type="StaticBody3D" parent="."]
+transform = Transform3D(0.98353994, 0, -0.18069081, 0, 1, 0, 0.18069081, 0, 0.98353994, 0.31058496, 0.6582769, 0.095289946)
+collision_mask = 2
+script = ExtResource("19_c17sg")
+seed_scene = ExtResource("20_7gqkp")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="SeedButton"]
+transform = Transform3D(0.7755288, 0, -0.6313123, 0, 1, 0, 0.6313123, 0, 0.7755288, -0.0661543, 0, 0.012153529)
+mesh = SubResource("BoxMesh_uj4ka")
+surface_material_override/0 = SubResource("StandardMaterial3D_c17sg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SeedButton"]
+transform = Transform3D(0.98357064, 0, -0.18051925, 0, 1, 0, 0.18051925, 0, 0.98357064, -0.052191973, -0.011249721, 4.4107437e-06)
+shape = SubResource("BoxShape3D_c17sg")
+
+[node name="ButtonLabel" type="Label3D" parent="SeedButton"]
+transform = Transform3D(0.7351866, 0, -0.6778647, 0, 1, 0, 0.6778647, 0, 0.7351866, -0.101906896, 0, 0.054482855)
+pixel_size = 0.0008
+text = "Add Seed"
+
+[node name="TouchDetector" type="Area3D" parent="SeedButton"]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SeedButton/TouchDetector"]
+transform = Transform3D(0.71772504, 0, -0.6963262, 0, 1, 0, 0.6963262, 0, 0.71772504, -0.063693285, -0.0061035156, 0.015273526)
+shape = SubResource("BoxShape3D_7gqkp")
 
 [editable path="XROrigin3D/LeftHand/LeftHandHumanoid2"]
 [editable path="XROrigin3D/RightHand/RightHandHumanoid2"]

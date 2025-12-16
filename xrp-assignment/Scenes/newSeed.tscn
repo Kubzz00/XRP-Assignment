@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://vobn42a4go4u"]
+[gd_scene load_steps=6 format=3 uid="uid://vobn42a4go4u"]
+
+[ext_resource type="Script" uid="uid://bfrlpbsqg5lqr" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_e2xjw"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_i3hlv"]
 radius = 0.05
@@ -14,6 +16,12 @@ radius = 0.1
 radius = 0.1
 
 [node name="Seeds" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 196615
+script = ExtResource("1_e2xjw")
+picked_up_layer = 131072
+ranged_grab_method = 0
+second_hand_grab = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_i3hlv")
