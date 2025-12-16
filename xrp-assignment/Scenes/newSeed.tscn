@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://vobn42a4go4u"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_i3hlv"]
+radius = 0.05
+height = 0.13
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t1ffi"]
+albedo_color = Color(0.69324183, 0.37344387, 0, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ymu23"]
+radius = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8k48m"]
+radius = 0.1
+
+[node name="Seeds" type="RigidBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_i3hlv")
+surface_material_override/0 = SubResource("StandardMaterial3D_t1ffi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ymu23")
+
+[node name="SeedDetector" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SeedDetector"]
+shape = SubResource("SphereShape3D_8k48m")
