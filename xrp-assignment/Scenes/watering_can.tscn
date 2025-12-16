@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://spq7ho7o37op"]
+[gd_scene load_steps=9 format=3 uid="uid://spq7ho7o37op"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_cql2i"]
 [ext_resource type="PackedScene" uid="uid://654a45yjttwm" path="res://Assests/models/Water Can.glb" id="2_l73o1"]
+[ext_resource type="Script" uid="uid://cus7jbon470m7" path="res://Scripts/wateringcan.gd" id="3_l73o1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v4ryr"]
 radius = 0.018066406
@@ -42,8 +43,12 @@ shape = SubResource("BoxShape3D_cql2i")
 
 [node name="WaterParticles" type="GPUParticles3D" parent="." index="3"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.242, 0.03, 0.078)
+emitting = false
 amount = 280
 lifetime = 1.5
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_l73o1")
 draw_pass_1 = SubResource("SphereMesh_txa3n")
+
+[node name="WateringController" type="Node3D" parent="." index="4"]
+script = ExtResource("3_l73o1")
