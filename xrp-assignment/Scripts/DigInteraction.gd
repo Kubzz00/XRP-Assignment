@@ -184,6 +184,11 @@ signal plot_dug
 signal ready_to_plant
 signal seed_planted
 
+# Colors for different states
+var color_original = Color(0.3, 0.15, 0.05)  # default soil
+var color_dug      = Color(0.2, 0.12, 0.06)  # when dug
+var color_planted  = Color(0.25, 0.18, 0.1)  # when seed planted
+
 func _ready():
 	print("DigInteraction ready on: ", get_parent().name)
 	
@@ -200,27 +205,25 @@ func _ready():
 	
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
+	
+	# Ensure starting color
+	set_plot_color(color_original)
 
-# ===========================
-# THIS IS THE CHANGED PART
-# ===========================
 func _on_area_entered(area: Area3D):
-	# NEW DEBUG LINES:
 	print("🔍 Plot detected area: ", area.name)
 	if area.get_parent():
 		print("   Parent: ", area.get_parent().name)
 	
-	# Check if it's a hand - for digging
+	# Hand for digging
 	if "Hand" in area.name and not is_dug:
 		hand_inside = true
 		print("Hand entered plot area!")
 		try_dig()
 	
-	# Check if it's a seed - for planting
+	# Seed for planting
 	elif "SeedDetector" in area.name and is_dug and not is_planted:
 		print("🌱 Seed detected over plot!")
 		plant_seed(area)
-# ===========================
 
 func _on_area_exited(area: Area3D):
 	if "Hand" in area.name:
@@ -240,6 +243,7 @@ func perform_dig():
 	print("✅ PLOT DUG! Ready for planting\n")
 	
 	update_state_label("Dug a plot!")
+	set_plot_color(color_dug)  # NEW
 	
 	spawn_dig_particles()
 	play_dig_animation()
@@ -247,7 +251,6 @@ func perform_dig():
 	plot_dug.emit()
 	ready_to_plant.emit()
 
-# Plant the seed
 func plant_seed(seed_area: Area3D):
 	if not can_plant:
 		print("❌ Plot not ready for planting!")
@@ -257,6 +260,7 @@ func plant_seed(seed_area: Area3D):
 	can_plant = false
 	
 	print("✅ SEED PLANTED!\n")
+	set_plot_color(color_planted)  # NEW
 	
 	update_state_label("Seed planted in plot!")
 	
@@ -268,11 +272,22 @@ func plant_seed(seed_area: Area3D):
 	
 	seed_planted.emit()
 
-# Update the state label
 func update_state_label(message: String):
 	if state_label:
 		state_label.text = message
 		print("📝 Status: ", message)
+
+# Change soil color safely
+func set_plot_color(new_color: Color):
+	if visual_mesh:
+		var material = visual_mesh.get_active_material(0)
+		if material:
+			material.albedo_color = new_color
+			print("🎨 Plot color changed")
+		else:
+			print("⚠️ No material on visual_mesh")
+	else:
+		print("⚠️ visual_mesh not assigned")
 
 func spawn_dig_particles():
 	if not particle_scene:
@@ -285,7 +300,7 @@ func spawn_dig_particles():
 	var scene_root = get_tree().root.get_child(get_tree().root.get_child_count() - 1)
 	scene_root.add_child(particles)
 	
-	var plot = get_parent()
+	var plot = self
 	particles.global_position = plot.global_position + Vector3(0, 0.1, 0)
 	particles.emitting = true
 	
