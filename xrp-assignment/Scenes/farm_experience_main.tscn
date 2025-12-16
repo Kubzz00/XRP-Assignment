@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://2axnt6cl1ued"]
+[gd_scene load_steps=23 format=3 uid="uid://2axnt6cl1ued"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
 [ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" uid="uid://d005es8cdrh4l" path="res://addons/hand_pose_detector/hand_pose_set.gd" id="7_gnobc"]
 [ext_resource type="PackedScene" uid="uid://dabmoo0spa6vg" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="8_uh45c"]
 [ext_resource type="PackedScene" uid="uid://dlbnuiir3ssge" path="res://Assests/models/Small Table.glb" id="9_mlhxu"]
+[ext_resource type="PackedScene" uid="uid://wohqjifcenot" path="res://Assests/models/Shovel.glb" id="10_427jq"]
+[ext_resource type="PackedScene" uid="uid://654a45yjttwm" path="res://Assests/models/Water Can.glb" id="11_adfdh"]
+[ext_resource type="PackedScene" uid="uid://dswhd3dfpojgx" path="res://Assests/models/Squash seed.glb" id="12_gnobc"]
 
 [sub_resource type="Resource" id="Resource_28cbd"]
 script = ExtResource("7_gnobc")
@@ -34,6 +37,17 @@ albedo_color = Color(0.56024766, 0.36466154, 0.20001623, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_am26l"]
 size = Vector3(1.9907227, 0.06390381, 1.1941528)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uh45c"]
+radius = 0.06
+height = 0.33
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_28cbd"]
+radius = 0.088378906
+height = 0.53674316
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uj4ka"]
+radius = 0.038225543
 
 [node name="FarmExperienceMain" type="Node3D"]
 
@@ -93,6 +107,33 @@ surface_material_override/0 = SubResource("StandardMaterial3D_epx7e")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/SoilBed/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00024414063, -0.0054626465, -0.00064086914)
 shape = SubResource("BoxShape3D_am26l")
+
+[node name="Shovel" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2730523, 0.58685124, 0)
+
+[node name="Shovel" parent="Shovel" instance=ExtResource("10_427jq")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shovel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.017822266, 0)
+shape = SubResource("CapsuleShape3D_uh45c")
+
+[node name="WateringCan" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5921236, 0.25873518, 0)
+
+[node name="Water Can" parent="WateringCan" instance=ExtResource("11_adfdh")]
+transform = Transform3D(0.17, 0, 0, 0, 0.17, 0, 0, 0, 0.17, 0.0932616, 0.85955596, 0.9474273)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WateringCan"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3888296, 0.83174014, 0.8700582)
+shape = SubResource("CapsuleShape3D_28cbd")
+
+[node name="Seeds" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6594799, 1.147872, -1.3232841)
+
+[node name="Seed" parent="Seeds" instance=ExtResource("12_gnobc")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Seeds"]
+shape = SubResource("SphereShape3D_uj4ka")
 
 [editable path="XROrigin3D/LeftHand/LeftHandHumanoid2"]
 [editable path="XROrigin3D/RightHand/RightHandHumanoid2"]
