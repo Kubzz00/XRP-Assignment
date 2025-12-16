@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://spq7ho7o37op"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_cql2i"]
+[ext_resource type="PackedScene" uid="uid://654a45yjttwm" path="res://Assests/models/Water Can.glb" id="2_l73o1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v4ryr"]
+radius = 0.018066406
+height = 0.14709473
+
+[node name="WateringCan" instance=ExtResource("1_cql2i")]
+freeze = true
+ranged_grab_method = 0
+second_hand_grab = 1
+
+[node name="Water Can" parent="." index="0" instance=ExtResource("2_l73o1")]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0, 0)
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13383767, 0.0036010742, 0)
+shape = SubResource("CapsuleShape3D_v4ryr")

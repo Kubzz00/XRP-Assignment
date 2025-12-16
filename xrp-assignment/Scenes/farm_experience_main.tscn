@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://2axnt6cl1ued"]
+[gd_scene load_steps=35 format=3 uid="uid://2axnt6cl1ued"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
 [ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
@@ -8,16 +8,33 @@
 [ext_resource type="Resource" uid="uid://ceofxcl7q122" path="res://addons/hand_pose_detector/poses/point.tres" id="6_adfdh"]
 [ext_resource type="Script" uid="uid://d005es8cdrh4l" path="res://addons/hand_pose_detector/hand_pose_set.gd" id="7_gnobc"]
 [ext_resource type="PackedScene" uid="uid://dabmoo0spa6vg" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="8_uh45c"]
+[ext_resource type="PackedScene" uid="uid://bh8isvqs258cp" path="res://addons/hand_pose_detector/hand_pose_controller.tscn" id="8_x3vlc"]
 [ext_resource type="PackedScene" uid="uid://dlbnuiir3ssge" path="res://Assests/models/Small Table.glb" id="9_mlhxu"]
-[ext_resource type="PackedScene" uid="uid://wohqjifcenot" path="res://Assests/models/Shovel.glb" id="10_427jq"]
+[ext_resource type="Script" uid="uid://3uq6nkwwrhe5" path="res://addons/hand_pose_detector/hand_pose_action.gd" id="9_uj4ka"]
 [ext_resource type="Script" uid="uid://bfrlpbsqg5lqr" path="res://addons/godot-xr-tools/objects/pickable.gd" id="10_adfdh"]
-[ext_resource type="PackedScene" uid="uid://654a45yjttwm" path="res://Assests/models/Water Can.glb" id="11_adfdh"]
+[ext_resource type="Script" uid="uid://dq0qr5qlrp6db" path="res://addons/hand_pose_detector/hand_pose_action_map.gd" id="10_c17sg"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="12_7gqkp"]
 [ext_resource type="PackedScene" uid="uid://dswhd3dfpojgx" path="res://Assests/models/Squash seed.glb" id="12_gnobc"]
+[ext_resource type="PackedScene" uid="uid://spq7ho7o37op" path="res://Scenes/watering_can.tscn" id="17_x3vlc"]
+[ext_resource type="PackedScene" uid="uid://p0mamkc44bbi" path="res://Scenes/seed.tscn" id="18_c17sg"]
+[ext_resource type="PackedScene" uid="uid://dlstdb8as4mf8" path="res://Scenes/shovel.tscn" id="18_uj4ka"]
 
 [sub_resource type="Resource" id="Resource_28cbd"]
 script = ExtResource("7_gnobc")
 poses = Array[ExtResource("4_am26l")]([ExtResource("5_427jq"), ExtResource("6_adfdh")])
 metadata/_custom_type_script = "uid://d005es8cdrh4l"
+
+[sub_resource type="Resource" id="Resource_tnkke"]
+script = ExtResource("9_uj4ka")
+pose = ExtResource("5_427jq")
+action_type = 1
+action_name = "grip"
+metadata/_custom_type_script = "uid://3uq6nkwwrhe5"
+
+[sub_resource type="Resource" id="Resource_elem4"]
+script = ExtResource("10_c17sg")
+actions = Array[ExtResource("9_uj4ka")]([SubResource("Resource_tnkke")])
+metadata/_custom_type_script = "uid://dq0qr5qlrp6db"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x3vlc"]
 radius = 0.1
@@ -26,6 +43,11 @@ radius = 0.1
 script = ExtResource("7_gnobc")
 poses = Array[ExtResource("4_am26l")]([ExtResource("5_427jq"), ExtResource("6_adfdh")])
 metadata/_custom_type_script = "uid://d005es8cdrh4l"
+
+[sub_resource type="Resource" id="Resource_bl33t"]
+script = ExtResource("10_c17sg")
+actions = Array[ExtResource("9_uj4ka")]([SubResource("Resource_tnkke")])
+metadata/_custom_type_script = "uid://dq0qr5qlrp6db"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_c17sg"]
 radius = 0.1
@@ -44,14 +66,6 @@ size = Vector2(20, 20)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gnobc"]
 albedo_color = Color(0.29803923, 0.6862745, 0.3137255, 1)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_adfdh"]
-radius = 0.044433594
-height = 0.5736084
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gnobc"]
-radius = 0.05859375
-height = 0.1539917
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uj4ka"]
 radius = 0.038225543
@@ -85,6 +99,10 @@ tracker = &"/user/hand_tracker/left"
 [node name="HandPoseDetector" parent="XROrigin3D/LeftHand" instance=ExtResource("3_epx7e")]
 hand_pose_set = SubResource("Resource_28cbd")
 
+[node name="HandPoseController" parent="XROrigin3D/LeftHand/HandPoseDetector" instance=ExtResource("8_x3vlc")]
+controller_pose_type = 0
+controller_action_map = SubResource("Resource_elem4")
+
 [node name="LeftHandArea" type="Area3D" parent="XROrigin3D/LeftHand"]
 collision_layer = 2
 
@@ -103,11 +121,28 @@ hand_tracker = &"/user/hand_tracker/right"
 hand_tracker_name = "/user/hand_tracker/right"
 hand_pose_set = SubResource("Resource_uj4ka")
 
+[node name="HandPoseController" parent="XROrigin3D/RightHand/HandPoseDetector" instance=ExtResource("8_x3vlc")]
+controller_tracker_name = "/user/hand_pose_controller/right"
+controller_pose_type = 0
+controller_action_map = SubResource("Resource_bl33t")
+
 [node name="RightHandArea" type="Area3D" parent="XROrigin3D/RightHand"]
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/RightHandArea"]
 shape = SubResource("SphereShape3D_c17sg")
+
+[node name="LeftVirtualController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"/user/hand_pose_controller/left"
+
+[node name="FunctionPickup" parent="XROrigin3D/LeftVirtualController" instance=ExtResource("12_7gqkp")]
+grab_distance = 0.1
+
+[node name="RightVirtualController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"/user/hand_pose_controller/right"
+
+[node name="FunctionPickup" parent="XROrigin3D/RightVirtualController" instance=ExtResource("12_7gqkp")]
+grab_distance = 0.1
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -129,39 +164,36 @@ shape = SubResource("BoxShape3D_am26l")
 mesh = SubResource("PlaneMesh_adfdh")
 surface_material_override/0 = SubResource("StandardMaterial3D_gnobc")
 
-[node name="Shovel" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.82406276, 0.36882913, -0.24432474)
-gravity_scale = 0.0
-script = ExtResource("10_adfdh")
-
-[node name="Shovel" parent="Shovel" instance=ExtResource("10_427jq")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.16391408, 0.7055963, 0.50436854)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Shovel"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1540497, 0.7476196, 0.5155463)
-shape = SubResource("CapsuleShape3D_adfdh")
-
-[node name="WateringCan" type="RigidBody3D" parent="."]
-transform = Transform3D(0.13694315, 0, -0.99057883, 0, 1, 0, 0.99057883, 0, 0.13694315, 1.4825195, 0.2877562, -0.033125937)
-gravity_scale = 0.0
-script = ExtResource("10_adfdh")
-
-[node name="Water Can" parent="WateringCan" instance=ExtResource("11_adfdh")]
-transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0.0932616, 0.85955596, 0.9474273)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WateringCan"]
-transform = Transform3D(1.0000038, 0, 0, 0, 1, 0, 0, 0, 1.0000038, 0.20845978, 0.8444519, 0.9230956)
-shape = SubResource("CapsuleShape3D_gnobc")
-
 [node name="Seeds" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.37382555, 0.8003413, -0.023721695)
+visible = false
 gravity_scale = 0.0
+freeze = true
 script = ExtResource("10_adfdh")
+ranged_grab_method = 0
+second_hand_grab = 1
 
 [node name="Seed" parent="Seeds" instance=ExtResource("12_gnobc")]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Seeds"]
+visible = false
 shape = SubResource("SphereShape3D_uj4ka")
+
+[node name="Shovel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7710158, 0.5552696, 0)
+
+[node name="Shovel" parent="Shovel" instance=ExtResource("18_uj4ka")]
+
+[node name="WateringCan" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7096498, 0.632767, 0.22273731)
+
+[node name="WateringCan" parent="WateringCan" instance=ExtResource("17_x3vlc")]
+
+[node name="Seed" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3197593, 0.8353424, 0)
+
+[node name="Seed" parent="Seed" instance=ExtResource("18_c17sg")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 1.6271832, 5.030473, 0.9928112)
