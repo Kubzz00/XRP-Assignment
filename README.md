@@ -34,7 +34,7 @@ Github: Kubzz00
 Assisgnment Repo: [XRP Assignment Repo](https://github.com/Kubzz00/XRP-Assignment)
 
 # Video
-[Video](https://link-url-here.org)
+[Video](https://www.youtube.com/shorts/u_dq7EP3ceo)
 
 The video shows the player using hand tracking in VR to dig a plot, plant a seed, water it and then harvest the wheat. The SDG‑related information is shown inside the world as part of the environment rather than as a normal flat UI popup.
 
