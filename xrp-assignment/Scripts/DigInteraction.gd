@@ -5,7 +5,12 @@ class_name DigInteraction
 var is_dug: bool = false
 var can_plant: bool = false
 var is_planted: bool = false
-var is_watered: bool = false   # watered state
+var is_watered: bool = false
+
+# Growth state (step 6)
+var is_grown: bool = false
+@export var growth_delay_before: float = 7.0  # from "Water plot!" to "Crop is growing"
+@export var growth_delay_after: float = 7.0   # from "Crop is growing" to "Crop fully grown"
 
 # Hand detection
 var hand_inside: bool = false
@@ -62,7 +67,7 @@ func _on_area_entered(area: Area3D):
 		print("🌱 Seed detected over plot!")
 		plant_seed(area)
 	
-	# Watering can for watering (kept in case you wire it later)
+	# Watering can for watering (still here if you wire it later)
 	elif "Water" in area.name and is_planted and not is_watered:
 		print("💧 Watering thing detected over plot!")
 		on_watered(area)
@@ -83,6 +88,7 @@ func perform_dig():
 	can_plant = true
 	is_planted = false
 	is_watered = false
+	is_grown = false
 	
 	print("✅ PLOT DUG! Ready for planting\n")
 	
@@ -102,7 +108,8 @@ func plant_seed(seed_area: Area3D) -> void:
 	
 	is_planted = true
 	can_plant = false
-	is_watered = false   # reset when new seed planted
+	is_watered = false
+	is_grown = false
 	
 	print("✅ SEED PLANTED!\n")
 	set_plot_color(color_planted)
@@ -117,15 +124,35 @@ func plant_seed(seed_area: Area3D) -> void:
 	
 	seed_planted.emit()
 	
-	# Wait 1 second, then prompt watering
+	# 1 second after planting → tell player to water
 	await get_tree().create_timer(1.0).timeout
-	update_state_label("Ready to water plot!")
+	update_state_label("Water plot!")
+	
+	# Start growth timer system (step 6)
+	start_growth_chain()
 
-# Watered state + message (optional, if/when you hook watering up again)
+# Growth timer system (logic only, no wheat model yet)
+func start_growth_chain() -> void:
+	if is_grown:
+		return  # already finished
+	
+	print("⏳ Growth timer: waiting before crop starts growing...")
+	
+	# 1st stage: wait after "Water plot!"
+	await get_tree().create_timer(growth_delay_before).timeout
+	update_state_label("Crop is growing")
+	print("🌱 Growth timer: crop is growing...")
+	
+	# 2nd stage: wait until crop fully grown
+	await get_tree().create_timer(growth_delay_after).timeout
+	is_grown = true
+	update_state_label("Crop fully grown!")
+	print("🌾 Growth timer: crop fully grown")
+
+# Optional: watered hook, still unused for logic
 func on_watered(water_area: Area3D):
 	is_watered = true
 	print("✅ Plot has been watered!")
-	
 	update_state_label("Plot watered! Growth starting...")
 
 func update_state_label(message: String):
