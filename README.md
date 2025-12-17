@@ -25,7 +25,7 @@ These are the key features and interations that my assignment will have
 - Spatial audio feedback throughout the experience
 
 ## Sample Design for Assignment
-![Alt Text](IMG_0039.png)
+![Alt Text](ImagesSC/Sample.png)
 
 # VirtualFarmXR: SDG 12
 Name: Karl Negrillo  
