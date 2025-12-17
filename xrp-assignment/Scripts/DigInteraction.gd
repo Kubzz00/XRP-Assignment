@@ -12,13 +12,16 @@ var is_grown: bool = false
 @export var growth_delay_before: float = 7.0  # from "Water plot!" to "Crop is growing"
 @export var growth_delay_after: float = 7.0   # from "Crop is growing" to "Crop fully grown"
 
+# Reference to spawned wheat
+var spawned_wheat: Node3D = null
+
 # Hand detection
 var hand_inside: bool = false
 
 # Visual reference
 @export var visual_mesh: MeshInstance3D
 @export var particle_scene: PackedScene
-@export var wheat_scene: PackedScene   # assign your Wheat.tscn here
+@export var wheat_scene: PackedScene   # assign your wheats.tscn here
 
 # Reference to state label
 var state_label: Label3D
@@ -57,16 +60,11 @@ func _on_area_entered(area: Area3D):
 	if area.get_parent():
 		print("   Parent: ", area.get_parent().name)
 	
-	# Hand for digging (and later harvesting)
-	if "Hand" in area.name:
+	# Hand for digging (harvest is handled by wheat's pickable.gd)
+	if "Hand" in area.name and not is_dug:
 		hand_inside = true
-		
-		if not is_dug:
-			print("Hand entered plot area! Digging...")
-			try_dig()
-		elif is_grown:
-			print("✂️ Hand over grown crop (harvest placeholder)")
-			# harvest_crop() can go here later
+		print("Hand entered plot area! Digging...")
+		try_dig()
 	
 	# Seed for planting
 	elif "SeedDetector" in area.name and is_dug and not is_planted:
@@ -90,6 +88,7 @@ func perform_dig():
 	is_planted = false
 	is_watered = false
 	is_grown = false
+	spawned_wheat = null
 	
 	print("✅ PLOT DUG! Ready for planting\n")
 	
@@ -111,6 +110,7 @@ func plant_seed(seed_area: Area3D) -> void:
 	can_plant = false
 	is_watered = false
 	is_grown = false
+	spawned_wheat = null
 	
 	print("✅ SEED PLANTED!\n")
 	set_plot_color(color_planted)
@@ -150,14 +150,25 @@ func start_growth_chain() -> void:
 	update_state_label("Crop fully grown!")
 	print("🌾 Growth timer: crop fully grown")
 	
-	# Spawn wheat at this plot's position
+	# Spawn wheat at this plot's position (pickable.gd handles pickup)
 	if wheat_scene:
 		var wheat_instance = wheat_scene.instantiate()
 		get_parent().add_child(wheat_instance)
 		wheat_instance.global_position = global_position
+		spawned_wheat = wheat_instance
 		print("🌾 Wheat spawned at: ", wheat_instance.global_position)
 	else:
 		print("⚠️ wheat_scene not assigned in inspector")
+
+# Called by wheat / pickable.gd when the player fully picks up / removes the wheat
+func on_wheat_harvested():
+	is_grown = false
+	is_planted = false
+	can_plant = true
+	spawned_wheat = null
+	set_plot_color(color_dug)
+	update_state_label("Wheat harvested! Plot ready.")
+	print("🌾 Wheat harvested, plot reset")
 
 func update_state_label(message: String):
 	if state_label:
