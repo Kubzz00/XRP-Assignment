@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://dq0qr5qlrp6db" path="res://addons/hand_pose_detector/hand_pose_action_map.gd" id="10_c17sg"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="12_7gqkp"]
 [ext_resource type="Script" uid="uid://delokeenh1qgr" path="res://Scripts/digSystem.gd" id="14_x3vlc"]
-[ext_resource type="PackedScene" uid="uid://cqg6xsv5nirk0" path="res://Scenes/plot.tscn" id="15_uj4ka"]
+[ext_resource type="PackedScene" uid="uid://b2thdn7k50xnu" path="res://Scenes/planting_plot.tscn" id="15_c17sg"]
 [ext_resource type="PackedScene" uid="uid://spq7ho7o37op" path="res://Scenes/watering_can.tscn" id="17_x3vlc"]
 [ext_resource type="PackedScene" uid="uid://dlstdb8as4mf8" path="res://Scenes/shovel.tscn" id="18_uj4ka"]
 [ext_resource type="Script" uid="uid://6uininxxq50p" path="res://Scripts/seedSpawner.gd" id="19_c17sg"]
@@ -173,7 +173,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_x3vlc")
 [node name="Detector" type="Area3D" parent="Environment/Soil"]
 collision_mask = 2
 script = ExtResource("14_x3vlc")
-plot_scene = ExtResource("15_uj4ka")
+plot_scene = ExtResource("15_c17sg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Soil/Detector"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0045166016, 0.0024414063, 0.0014038086)

@@ -18,10 +18,16 @@ var spawned_wheat: Node3D = null
 # Hand detection
 var hand_inside: bool = false
 
-# Visual reference
+# Visual / scenes
 @export var visual_mesh: MeshInstance3D
 @export var particle_scene: PackedScene
-@export var wheat_scene: PackedScene   # assign your wheats.tscn here
+@export var wheat_scene: PackedScene   # assign wheats.tscn here
+
+# Audio players (set in inspector)
+@export var dig_audio: AudioStreamPlayer3D
+@export var seed_audio: AudioStreamPlayer3D
+@export var water_audio: AudioStreamPlayer3D
+@export var grown_audio: AudioStreamPlayer3D
 
 # Reference to state label
 var state_label: Label3D
@@ -31,7 +37,7 @@ signal plot_dug
 signal ready_to_plant
 signal seed_planted
 
-# Colors for different states
+# Colors
 var color_original = Color(0.3, 0.15, 0.05)
 var color_dug      = Color(0.2, 0.12, 0.06)
 var color_planted  = Color(0.25, 0.18, 0.1)
@@ -43,7 +49,6 @@ func _ready():
 		visual_mesh = get_parent().get_node("PlotVisual")
 		print("Found PlotVisual automatically\n")
 	
-	# Find the StateUpdate label
 	state_label = get_tree().root.find_child("StateUpdate", true, false)
 	if state_label:
 		print("✅ StateUpdate label found!")
@@ -60,7 +65,7 @@ func _on_area_entered(area: Area3D):
 	if area.get_parent():
 		print("   Parent: ", area.get_parent().name)
 	
-	# Hand for digging (harvest is handled by wheat's pickable.gd)
+	# Hand for digging
 	if "Hand" in area.name and not is_dug:
 		hand_inside = true
 		print("Hand entered plot area! Digging...")
@@ -97,6 +102,7 @@ func perform_dig():
 	
 	spawn_dig_particles()
 	play_dig_animation()
+	_play_dig_sound()
 	
 	plot_dug.emit()
 	ready_to_plant.emit()
@@ -116,6 +122,7 @@ func plant_seed(seed_area: Area3D) -> void:
 	set_plot_color(color_planted)
 	
 	update_state_label("Seed planted in plot!")
+	_play_seed_sound()
 	
 	# Remove the seed from the scene
 	var seed_node = seed_area.get_parent()
@@ -143,14 +150,16 @@ func start_growth_chain() -> void:
 	await get_tree().create_timer(growth_delay_before).timeout
 	update_state_label("Crop is growing")
 	print("🌱 Growth timer: crop is growing...")
+	_play_water_sound()
 	
 	# 2nd stage: wait until crop fully grown
 	await get_tree().create_timer(growth_delay_after).timeout
 	is_grown = true
 	update_state_label("Crop fully grown!")
 	print("🌾 Growth timer: crop fully grown")
+	_play_grown_sound()
 	
-	# Spawn wheat at this plot's position (pickable.gd handles pickup)
+	# Spawn wheat at this plot's position
 	if wheat_scene:
 		var wheat_instance = wheat_scene.instantiate()
 		get_parent().add_child(wheat_instance)
@@ -160,7 +169,7 @@ func start_growth_chain() -> void:
 	else:
 		print("⚠️ wheat_scene not assigned in inspector")
 
-# Called by wheat / pickable.gd when the player fully picks up / removes the wheat
+# Optional hook if wheat calls back when picked up
 func on_wheat_harvested():
 	is_grown = false
 	is_planted = false
@@ -215,3 +224,33 @@ func play_dig_animation():
 	tween.tween_property(plot, "scale", original_scale * 0.9, 0.1)
 	tween.tween_property(plot, "scale", original_scale, 0.1)
 	#pass
+
+# --- Audio helpers ---
+
+func _play_dig_sound():
+	if dig_audio:
+		print("🔊 Playing dig sound")
+		dig_audio.play()
+	else:
+		print("⚠️ Dig sound not assigned")
+
+func _play_seed_sound():
+	if seed_audio:
+		print("🔊 Playing seed sound")
+		seed_audio.play()
+	else:
+		print("⚠️ Seed sound not assigned")
+
+func _play_water_sound():
+	if water_audio:
+		print("🔊 Playing water sound")
+		water_audio.play()
+	else:
+		print("⚠️ Water sound not assigned")
+
+func _play_grown_sound():
+	if grown_audio:
+		print("🔊 Playing grown/harvest sound")
+		grown_audio.play()
+	else:
+		print("⚠️ Grown sound not assigned")
