@@ -1,6 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqg6xsv5nirk0"]
+[gd_scene load_steps=10 format=3 uid="uid://cqg6xsv5nirk0"]
 
 [ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scripts/DigInteraction.gd" id="1_f03gw"]
+[ext_resource type="PackedScene" uid="uid://b0acjxr47f5jj" path="res://Scenes/dig_particles.tscn" id="2_3nkwj"]
+[ext_resource type="PackedScene" uid="uid://be6y15o14i2eq" path="res://Scenes/wheats.tscn" id="3_a44o3"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qgics"]
 top_radius = 0.2
@@ -32,6 +34,8 @@ radius = 0.14453125
 [node name="Plot" type="Area3D"]
 collision_mask = 6
 script = ExtResource("1_f03gw")
+particle_scene = ExtResource("2_3nkwj")
+wheat_scene = ExtResource("3_a44o3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)

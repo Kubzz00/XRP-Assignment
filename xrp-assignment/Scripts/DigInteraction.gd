@@ -7,7 +7,7 @@ var can_plant: bool = false
 var is_planted: bool = false
 var is_watered: bool = false
 
-# Growth state (step 6)
+# Growth state
 var is_grown: bool = false
 @export var growth_delay_before: float = 7.0  # from "Water plot!" to "Crop is growing"
 @export var growth_delay_after: float = 7.0   # from "Crop is growing" to "Crop fully grown"
@@ -18,6 +18,7 @@ var hand_inside: bool = false
 # Visual reference
 @export var visual_mesh: MeshInstance3D
 @export var particle_scene: PackedScene
+@export var wheat_scene: PackedScene   # assign your Wheat.tscn here
 
 # Reference to state label
 var state_label: Label3D
@@ -56,21 +57,21 @@ func _on_area_entered(area: Area3D):
 	if area.get_parent():
 		print("   Parent: ", area.get_parent().name)
 	
-	# Hand for digging
-	if "Hand" in area.name and not is_dug:
+	# Hand for digging (and later harvesting)
+	if "Hand" in area.name:
 		hand_inside = true
-		print("Hand entered plot area!")
-		try_dig()
+		
+		if not is_dug:
+			print("Hand entered plot area! Digging...")
+			try_dig()
+		elif is_grown:
+			print("✂️ Hand over grown crop (harvest placeholder)")
+			# harvest_crop() can go here later
 	
 	# Seed for planting
 	elif "SeedDetector" in area.name and is_dug and not is_planted:
 		print("🌱 Seed detected over plot!")
 		plant_seed(area)
-	
-	# Watering can for watering (still here if you wire it later)
-	elif "Water" in area.name and is_planted and not is_watered:
-		print("💧 Watering thing detected over plot!")
-		on_watered(area)
 
 func _on_area_exited(area: Area3D):
 	if "Hand" in area.name:
@@ -128,10 +129,10 @@ func plant_seed(seed_area: Area3D) -> void:
 	await get_tree().create_timer(1.0).timeout
 	update_state_label("Water plot!")
 	
-	# Start growth timer system (step 6)
+	# Start growth timer system
 	start_growth_chain()
 
-# Growth timer system (logic only, no wheat model yet)
+# Growth timer system + wheat spawn
 func start_growth_chain() -> void:
 	if is_grown:
 		return  # already finished
@@ -148,12 +149,15 @@ func start_growth_chain() -> void:
 	is_grown = true
 	update_state_label("Crop fully grown!")
 	print("🌾 Growth timer: crop fully grown")
-
-# Optional: watered hook, still unused for logic
-func on_watered(water_area: Area3D):
-	is_watered = true
-	print("✅ Plot has been watered!")
-	update_state_label("Plot watered! Growth starting...")
+	
+	# Spawn wheat at this plot's position
+	if wheat_scene:
+		var wheat_instance = wheat_scene.instantiate()
+		get_parent().add_child(wheat_instance)
+		wheat_instance.global_position = global_position
+		print("🌾 Wheat spawned at: ", wheat_instance.global_position)
+	else:
+		print("⚠️ wheat_scene not assigned in inspector")
 
 func update_state_label(message: String):
 	if state_label:

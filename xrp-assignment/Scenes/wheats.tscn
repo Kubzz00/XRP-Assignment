@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cqgepb2kkwxiu" path="res://Assests/models/Wheats.glb" id="1_fdemk"]
 
-[node name="Wheats" type="RigidBody3D"]
+[node name="Wheats" type="Node3D"]
 
-[node name="Wheats" parent="." instance=ExtResource("1_fdemk")]
+[node name="wheats" parent="." instance=ExtResource("1_fdemk")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2thdn7k50xnu"]
+[gd_scene load_steps=7 format=3 uid="uid://b2thdn7k50xnu"]
 
 [ext_resource type="Script" uid="uid://0pa0wbr6ajej" path="res://Scripts/DigInteraction.gd" id="1_o8bsd"]
 [ext_resource type="PackedScene" uid="uid://b0acjxr47f5jj" path="res://Scenes/dig_particles.tscn" id="2_s0rjq"]
+[ext_resource type="PackedScene" uid="uid://be6y15o14i2eq" path="res://Scenes/wheats.tscn" id="3_8kbui"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_o8bsd"]
 top_radius = 0.2
@@ -28,6 +29,7 @@ collision_mask = 14
 script = ExtResource("1_o8bsd")
 visual_mesh = NodePath("../PlotVisual")
 particle_scene = ExtResource("2_s0rjq")
+wheat_scene = ExtResource("3_8kbui")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DigArea"]
 shape = SubResource("CylinderShape3D_s0rjq")
