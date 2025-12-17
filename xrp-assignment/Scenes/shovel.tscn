@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlstdb8as4mf8"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_o1hr1"]
+[ext_resource type="PackedScene" uid="uid://wohqjifcenot" path="res://Assests/models/Shovel.glb" id="2_m4ff3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tthjg"]
+radius = 0.04345703
+height = 0.7094879
+
+[node name="Shovel" instance=ExtResource("1_o1hr1")]
+freeze = true
+freeze_mode = 0
+ranged_grab_method = 0
+second_hand_grab = 1
+
+[node name="Shovel" parent="." index="0" instance=ExtResource("2_m4ff3")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.078681946, 0)
+shape = SubResource("CapsuleShape3D_tthjg")

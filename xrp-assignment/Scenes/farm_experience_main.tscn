@@ -1,0 +1,241 @@
+[gd_scene load_steps=42 format=3 uid="uid://2axnt6cl1ued"]
+
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
+[ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
+[ext_resource type="PackedScene" uid="uid://df5hynbooj1uj" path="res://addons/hand_pose_detector/hand_pose_detector.tscn" id="3_epx7e"]
+[ext_resource type="Script" uid="uid://c4uoqfu4wqoet" path="res://addons/hand_pose_detector/hand_pose.gd" id="4_am26l"]
+[ext_resource type="Resource" uid="uid://dhbqusuodrl3r" path="res://addons/hand_pose_detector/poses/fist.tres" id="5_427jq"]
+[ext_resource type="Resource" uid="uid://ceofxcl7q122" path="res://addons/hand_pose_detector/poses/point.tres" id="6_adfdh"]
+[ext_resource type="Script" uid="uid://d005es8cdrh4l" path="res://addons/hand_pose_detector/hand_pose_set.gd" id="7_gnobc"]
+[ext_resource type="PackedScene" uid="uid://dabmoo0spa6vg" path="res://addons/hand_pose_detector/hands/RightHandHumanoid.gltf" id="8_uh45c"]
+[ext_resource type="PackedScene" uid="uid://bh8isvqs258cp" path="res://addons/hand_pose_detector/hand_pose_controller.tscn" id="8_x3vlc"]
+[ext_resource type="PackedScene" uid="uid://dlbnuiir3ssge" path="res://Assests/models/Small Table.glb" id="9_mlhxu"]
+[ext_resource type="Script" uid="uid://3uq6nkwwrhe5" path="res://addons/hand_pose_detector/hand_pose_action.gd" id="9_uj4ka"]
+[ext_resource type="Script" uid="uid://dq0qr5qlrp6db" path="res://addons/hand_pose_detector/hand_pose_action_map.gd" id="10_c17sg"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="12_7gqkp"]
+[ext_resource type="Script" uid="uid://delokeenh1qgr" path="res://Scripts/digSystem.gd" id="14_x3vlc"]
+[ext_resource type="PackedScene" uid="uid://b2thdn7k50xnu" path="res://Scenes/planting_plot.tscn" id="15_c17sg"]
+[ext_resource type="PackedScene" uid="uid://spq7ho7o37op" path="res://Scenes/watering_can.tscn" id="17_x3vlc"]
+[ext_resource type="PackedScene" uid="uid://dlstdb8as4mf8" path="res://Scenes/shovel.tscn" id="18_uj4ka"]
+[ext_resource type="Script" uid="uid://6uininxxq50p" path="res://Scripts/seedSpawner.gd" id="19_c17sg"]
+[ext_resource type="PackedScene" uid="uid://vobn42a4go4u" path="res://Scenes/newSeed.tscn" id="20_7gqkp"]
+[ext_resource type="Texture2D" uid="uid://bho07pogt2u0x" path="res://Images/SDGInfo.png" id="20_tnkke"]
+
+[sub_resource type="Resource" id="Resource_28cbd"]
+script = ExtResource("7_gnobc")
+poses = Array[ExtResource("4_am26l")]([ExtResource("5_427jq"), ExtResource("6_adfdh")])
+metadata/_custom_type_script = "uid://d005es8cdrh4l"
+
+[sub_resource type="Resource" id="Resource_tnkke"]
+script = ExtResource("9_uj4ka")
+pose = ExtResource("5_427jq")
+action_type = 1
+action_name = "grip"
+metadata/_custom_type_script = "uid://3uq6nkwwrhe5"
+
+[sub_resource type="Resource" id="Resource_elem4"]
+script = ExtResource("10_c17sg")
+actions = Array[ExtResource("9_uj4ka")]([SubResource("Resource_tnkke")])
+metadata/_custom_type_script = "uid://dq0qr5qlrp6db"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x3vlc"]
+radius = 0.1
+
+[sub_resource type="Resource" id="Resource_uj4ka"]
+script = ExtResource("7_gnobc")
+poses = Array[ExtResource("4_am26l")]([ExtResource("5_427jq"), ExtResource("6_adfdh")])
+metadata/_custom_type_script = "uid://d005es8cdrh4l"
+
+[sub_resource type="Resource" id="Resource_bl33t"]
+script = ExtResource("10_c17sg")
+actions = Array[ExtResource("9_uj4ka")]([SubResource("Resource_tnkke")])
+metadata/_custom_type_script = "uid://dq0qr5qlrp6db"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_c17sg"]
+radius = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_adfdh"]
+size = Vector2(20, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gnobc"]
+albedo_color = Color(0.29803923, 0.6862745, 0.3137255, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_28cbd"]
+size = Vector3(1.5, 0.03, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3vlc"]
+albedo_color = Color(0.5847179, 0.42358288, 0.24780053, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uj4ka"]
+size = Vector3(1.4763184, 0.028320313, 1.0028076)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uh45c"]
+
+[sub_resource type="Sky" id="Sky_28cbd"]
+sky_material = SubResource("ProceduralSkyMaterial_uh45c")
+
+[sub_resource type="Environment" id="Environment_adfdh"]
+background_mode = 2
+background_color = Color(0, 0, 0, 0)
+sky = SubResource("Sky_28cbd")
+
+[sub_resource type="BoxMesh" id="BoxMesh_uj4ka"]
+size = Vector3(0.1, 0.05, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c17sg"]
+albedo_color = Color(0.7019608, 0.5921569, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c17sg"]
+size = Vector3(0.1385254, 0.08629151, 0.09394531)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7gqkp"]
+size = Vector3(0.13241577, 0.072753906, 0.1309873)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_elem4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bl33t"]
+albedo_texture = ExtResource("20_tnkke")
+
+[node name="FarmExperienceMain" type="Node3D"]
+
+[node name="StartXR" parent="." instance=ExtResource("1_si7pw")]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3954082, 0.16544366)
+
+[node name="LeftHand" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/left"
+
+[node name="LeftHandHumanoid2" parent="XROrigin3D/LeftHand" instance=ExtResource("2_mlhxu")]
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/LeftHand/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D" index="1"]
+
+[node name="HandPoseDetector" parent="XROrigin3D/LeftHand" instance=ExtResource("3_epx7e")]
+hand_pose_set = SubResource("Resource_28cbd")
+
+[node name="HandPoseController" parent="XROrigin3D/LeftHand/HandPoseDetector" instance=ExtResource("8_x3vlc")]
+controller_pose_type = 0
+controller_action_map = SubResource("Resource_elem4")
+
+[node name="LeftHandArea" type="Area3D" parent="XROrigin3D/LeftHand"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftHand/LeftHandArea"]
+shape = SubResource("SphereShape3D_x3vlc")
+
+[node name="RightHand" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/right"
+
+[node name="RightHandHumanoid2" parent="XROrigin3D/RightHand" instance=ExtResource("8_uh45c")]
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/RightHand/RightHandHumanoid2/RightHandHumanoid/Skeleton3D" index="1"]
+hand_tracker = &"/user/hand_tracker/right"
+
+[node name="HandPoseDetector" parent="XROrigin3D/RightHand" instance=ExtResource("3_epx7e")]
+hand_tracker_name = "/user/hand_tracker/right"
+hand_pose_set = SubResource("Resource_uj4ka")
+
+[node name="HandPoseController" parent="XROrigin3D/RightHand/HandPoseDetector" instance=ExtResource("8_x3vlc")]
+controller_tracker_name = "/user/hand_pose_controller/right"
+controller_pose_type = 0
+controller_action_map = SubResource("Resource_bl33t")
+
+[node name="RightHandArea" type="Area3D" parent="XROrigin3D/RightHand"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/RightHandArea"]
+shape = SubResource("SphereShape3D_c17sg")
+
+[node name="LeftVirtualController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"/user/hand_pose_controller/left"
+
+[node name="FunctionPickup" parent="XROrigin3D/LeftVirtualController" instance=ExtResource("12_7gqkp")]
+grab_distance = 0.1
+
+[node name="RightVirtualController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"/user/hand_pose_controller/right"
+
+[node name="FunctionPickup" parent="XROrigin3D/RightVirtualController" instance=ExtResource("12_7gqkp")]
+grab_distance = 0.1
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Table" parent="Environment" instance=ExtResource("9_mlhxu")]
+transform = Transform3D(-3.4969112e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.4969112e-08, 0.075, 0, -0.5809345)
+
+[node name="Floor" type="MeshInstance3D" parent="Environment"]
+mesh = SubResource("PlaneMesh_adfdh")
+surface_material_override/0 = SubResource("StandardMaterial3D_gnobc")
+
+[node name="Soil" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6672667, -0.5790373)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Soil"]
+mesh = SubResource("BoxMesh_28cbd")
+surface_material_override/0 = SubResource("StandardMaterial3D_x3vlc")
+
+[node name="Detector" type="Area3D" parent="Environment/Soil"]
+collision_mask = 2
+script = ExtResource("14_x3vlc")
+plot_scene = ExtResource("15_c17sg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Soil/Detector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0045166016, 0.0024414063, 0.0014038086)
+shape = SubResource("BoxShape3D_uj4ka")
+
+[node name="StateUpdate" type="Label3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91272485, -2.5870082)
+text = "Use Hand or Shovel to start digging..."
+
+[node name="Shovel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7710158, 0.5552696, 0)
+
+[node name="Shovel" parent="Shovel" instance=ExtResource("18_uj4ka")]
+
+[node name="WateringCan" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7096498, 0.632767, 0.22273731)
+
+[node name="WateringCan" parent="WateringCan" instance=ExtResource("17_x3vlc")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 1.6271832, 5.030473, 0.9928112)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_adfdh")
+
+[node name="SeedButton" type="StaticBody3D" parent="."]
+transform = Transform3D(0.98353994, 0, -0.18069081, 0, 1, 0, 0.18069081, 0, 0.98353994, 0.31058496, 0.6582769, 0.095289946)
+collision_mask = 2
+script = ExtResource("19_c17sg")
+seed_scene = ExtResource("20_7gqkp")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="SeedButton"]
+transform = Transform3D(0.7755288, 0, -0.6313123, 0, 1, 0, 0.6313123, 0, 0.7755288, -0.0661543, 0, 0.012153529)
+mesh = SubResource("BoxMesh_uj4ka")
+surface_material_override/0 = SubResource("StandardMaterial3D_c17sg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SeedButton"]
+transform = Transform3D(0.98357064, 0, -0.18051925, 0, 1, 0, 0.18051925, 0, 0.98357064, -0.052191973, -0.011249721, 4.4107437e-06)
+shape = SubResource("BoxShape3D_c17sg")
+
+[node name="ButtonLabel" type="Label3D" parent="SeedButton"]
+transform = Transform3D(0.7351866, 0, -0.6778647, 0, 1, 0, 0.6778647, 0, 0.7351866, -0.101906896, 0, 0.054482855)
+pixel_size = 0.0008
+text = "Add Seed"
+
+[node name="TouchDetector" type="Area3D" parent="SeedButton"]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SeedButton/TouchDetector"]
+transform = Transform3D(0.71772504, 0, -0.6963262, 0, 1, 0, 0.6963262, 0, 0.71772504, -0.063693285, -0.0061035156, 0.015273526)
+shape = SubResource("BoxShape3D_7gqkp")
+
+[node name="SDGBoard" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.49999997, 4.3711385e-08, -1.9106855e-15, 0, -2.1855692e-08, -0.5, -4.3711385e-08, -0.49999997, 2.1855694e-08, 0, 1.2660555, 0.77948725)
+mesh = SubResource("PlaneMesh_elem4")
+surface_material_override/0 = SubResource("StandardMaterial3D_bl33t")
+
+[editable path="XROrigin3D/LeftHand/LeftHandHumanoid2"]
+[editable path="XROrigin3D/RightHand/RightHandHumanoid2"]

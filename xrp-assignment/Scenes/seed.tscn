@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://p0mamkc44bbi"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_arhpd"]
+[ext_resource type="PackedScene" uid="uid://dswhd3dfpojgx" path="res://Assests/models/Squash seed.glb" id="2_nwbkr"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jya8j"]
+radius = 0.052681297
+
+[node name="Seed" instance=ExtResource("1_arhpd")]
+freeze = true
+ranged_grab_method = 0
+second_hand_grab = 1
+
+[node name="Seed" parent="." index="0" instance=ExtResource("2_nwbkr")]
+
+[node name="CollisionShape3D" parent="." index="1"]
+shape = SubResource("SphereShape3D_jya8j")
