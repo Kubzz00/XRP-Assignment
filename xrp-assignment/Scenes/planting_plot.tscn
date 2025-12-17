@@ -24,7 +24,7 @@ mesh = SubResource("CylinderMesh_o8bsd")
 surface_material_override/0 = SubResource("StandardMaterial3D_o8bsd")
 
 [node name="DigArea" type="Area3D" parent="." node_paths=PackedStringArray("visual_mesh")]
-collision_mask = 2
+collision_mask = 14
 script = ExtResource("1_o8bsd")
 visual_mesh = NodePath("../PlotVisual")
 particle_scene = ExtResource("2_s0rjq")

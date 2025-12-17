@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var tilt_threshold_degrees: float = 40.0
+@export var tilt_threshold_degrees: float = 60.0
 @export var water_particles_path: NodePath = NodePath("../WaterParticles")
 @export var can_body_path: NodePath = NodePath("..")
 
@@ -17,12 +17,15 @@ func _physics_process(delta):
 	if water_particles == null or can_body == null:
 		return
 	
-	# Use the can's local DOWN direction (its -Y axis) to detect tilt
-	var can_down: Vector3 = -can_body.global_transform.basis.y
-	var world_down: Vector3 = Vector3.DOWN
+	# Assume spout points along -Z in local space. Adjust to +Z if needed.
+	var spout_dir: Vector3 = -can_body.global_transform.basis.z
+	var world_up: Vector3 = Vector3.UP
 	
-	var angle_rad = can_down.angle_to(world_down)
+	# Angle between spout and world up:
+	# 0°  = spout up, 90° = spout horizontal, 180° = spout straight down.
+	var angle_rad = spout_dir.angle_to(world_up)
 	var angle_deg = rad_to_deg(angle_rad)
 	
-	var should_emit = angle_deg < tilt_threshold_degrees
+	# Water when spout is tilted down enough (angle greater than threshold)
+	var should_emit = angle_deg > tilt_threshold_degrees
 	water_particles.emitting = should_emit
