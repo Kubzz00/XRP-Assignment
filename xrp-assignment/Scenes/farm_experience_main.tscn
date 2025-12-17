@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://2axnt6cl1ued"]
+[gd_scene load_steps=42 format=3 uid="uid://2axnt6cl1ued"]
 
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_si7pw"]
 [ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="2_mlhxu"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dlstdb8as4mf8" path="res://Scenes/shovel.tscn" id="18_uj4ka"]
 [ext_resource type="Script" uid="uid://6uininxxq50p" path="res://Scripts/seedSpawner.gd" id="19_c17sg"]
 [ext_resource type="PackedScene" uid="uid://vobn42a4go4u" path="res://Scenes/newSeed.tscn" id="20_7gqkp"]
+[ext_resource type="Texture2D" uid="uid://bho07pogt2u0x" path="res://Images/SDGInfo.png" id="20_tnkke"]
 
 [sub_resource type="Resource" id="Resource_28cbd"]
 script = ExtResource("7_gnobc")
@@ -89,6 +90,11 @@ size = Vector3(0.1385254, 0.08629151, 0.09394531)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7gqkp"]
 size = Vector3(0.13241577, 0.072753906, 0.1309873)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_elem4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bl33t"]
+albedo_texture = ExtResource("20_tnkke")
 
 [node name="FarmExperienceMain" type="Node3D"]
 
@@ -225,6 +231,11 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SeedButton/TouchDetector"]
 transform = Transform3D(0.71772504, 0, -0.6963262, 0, 1, 0, 0.6963262, 0, 0.71772504, -0.063693285, -0.0061035156, 0.015273526)
 shape = SubResource("BoxShape3D_7gqkp")
+
+[node name="SDGBoard" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.49999997, 4.3711385e-08, -1.9106855e-15, 0, -2.1855692e-08, -0.5, -4.3711385e-08, -0.49999997, 2.1855694e-08, 0, 1.2660555, 0.77948725)
+mesh = SubResource("PlaneMesh_elem4")
+surface_material_override/0 = SubResource("StandardMaterial3D_bl33t")
 
 [editable path="XROrigin3D/LeftHand/LeftHandHumanoid2"]
 [editable path="XROrigin3D/RightHand/RightHandHumanoid2"]
